@@ -6,16 +6,19 @@ import { supabase } from '@/lib/supabaseClient'
 export default function AddGoalForm() {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [targetDate, setTargetDate] = useState('')
+    const [targetDate, setTargetDate] = useState(() => {
+        const today = new Date()
+        const yyyy = today.getFullYear()
+        const mm = String(today.getMonth() + 1).padStart(2, '0')
+        const dd = String(today.getDate()).padStart(2, '0')
+        return `${yyyy}-${mm}-${dd}`
+    })
     const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
-
-        // const user_id = 'a8f426c8-29e8-4855-9d9f-e9ef398fc26a' // Use supabase.auth.getUser() if using Auth
-        // const user_id = supabase.auth.getUser()
-
+        
         const {
             data: { user },
             error: userError,
@@ -48,71 +51,98 @@ export default function AddGoalForm() {
 
         setLoading(false)
     }
+    const [showForm, setShowForm] = useState(false)
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-6 max-w-md bg-white shadow-lg rounded-xl p-8"
-        >
-            <h2 className="text-2xl font-semibold mb-2 text-gray-800">Add New Goal</h2>
-            <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium text-gray-700">Goal Title</label>
-                <input
-                    required
-                    className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                    placeholder="Enter your goal"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-            </div>
-            <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium text-gray-700">Description</label>
-                <textarea
-                    className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
-                    placeholder="Describe your goal (optional)"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    rows={3}
-                />
-            </div>
-            <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium text-gray-700">Target Date</label>
-                <input
-                    type="date"
-                    className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                    value={targetDate}
-                    onChange={(e) => setTargetDate(e.target.value)}
-                />
-            </div>
-            <button
-                type="submit"
-                className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-3 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-blue-600 transition disabled:opacity-50"
-                disabled={loading}
-            >
-                {loading ? (
-                    <span className="flex items-center justify-center gap-2">
-                        <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
-                            <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                                fill="none"
-                            />
-                            <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                            />
-                        </svg>
-                        Adding...
-                    </span>
-                ) : (
-                    'Add Goal'
-                )}
-            </button>
-        </form>
+        <div>
+            {!showForm && (
+                <button
+                    onClick={() => setShowForm(true)}
+                    className="bg-blue-600 text-white mx-4 px-6 py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition"
+                >
+                    Add New Goal
+                </button>
+            )}
+            {showForm && (
+                <div className="flex p-2">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="flex flex-col gap-4 w-full max-w-4xl bg-white shadow-lg rounded-xl p-6"
+                    >
+                        <h2 className="text-xl font-semibold mb-1 text-gray-800">Add New Goal</h2>
+                        <div className="flex flex-col md:flex-row gap-3">
+                            <div className="flex flex-col gap-1 flex-1">
+                                <label className="text-sm font-medium text-gray-700">Goal Title</label>
+                                <input
+                                    required
+                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                                    placeholder="Enter your goal"
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
+                            </div>
+                            <div className="flex flex-col gap-1 flex-1">
+                                <label className="text-sm font-medium text-gray-700">Description</label>
+                                <textarea
+                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                                    placeholder="Describe your goal (optional)"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    rows={2}
+                                />
+                            </div>
+                            <div className="flex flex-col gap-1 flex-1">
+                                <label className="text-sm font-medium text-gray-700">Target Date</label>
+                                <input
+                                    type="date"
+                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                                    value={targetDate}
+                                    onChange={(e) => setTargetDate(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex gap-3">
+                            <button
+                                type="submit"
+                                className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-2 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-blue-600 transition disabled:opacity-50"
+                                disabled={loading}
+                            >
+                                {loading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                                fill="none"
+                                            />
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                            />
+                                        </svg>
+                                        Adding...
+                                    </span>
+                                ) : (
+                                    'Add Goal'
+                                )}
+                            </button>
+                            <button
+                                type="button"
+                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold shadow hover:bg-gray-400 transition"
+                                onClick={() => setShowForm(false)}
+                                disabled={loading}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
+        </div>
     )
 }
