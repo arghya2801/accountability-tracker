@@ -11,7 +11,7 @@ type Goal = {
     status: string
 }
 
-export default function GoalsTable() {
+export default function GoalsTable({ userId, userName }: { userId: string, userName: string }) {
     const [goals, setGoals] = useState<Goal[]>([])
     const [editingId, setEditingId] = useState<string | null>(null)
     const [editForm, setEditForm] = useState<Partial<Goal>>({})
@@ -20,6 +20,7 @@ export default function GoalsTable() {
         const { data, error } = await supabase
             .from('goals')
             .select('*')
+            .eq('user_id', userId)
             .order('target_date', { ascending: true })
 
         if (error) {
@@ -121,7 +122,7 @@ export default function GoalsTable() {
     }, [])
 
     return (
-        <div className="w-full lg:w-1/2 p-4">
+        <div className="w-full p-4">
             <div className="overflow-x-auto rounded-lg shadow-sm border border-gray-200">
                 <table className="w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
