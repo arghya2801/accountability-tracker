@@ -11,7 +11,7 @@ type Goal = {
     status: string
 }
 
-export default function GoalsTable({ userId, userName }: { userId: string, userName: string }) {
+export default function GoalsTable({ userId }: { userId: string }) {
     const [goals, setGoals] = useState<Goal[]>([])
     const [editingId, setEditingId] = useState<string | null>(null)
     const [editForm, setEditForm] = useState<Partial<Goal>>({})
@@ -106,25 +106,34 @@ export default function GoalsTable({ userId, userName }: { userId: string, userN
     useEffect(() => {
         fetchGoals()
 
+        // Create a unique channel name to avoid conflicts
+        const channelName = `goals-changes-${userId}-${Date.now()}`
+
         const channel = supabase
-            .channel('goals-table-changes')
+            .channel(channelName)
             .on(
                 'postgres_changes',
                 {
                     event: '*',
                     schema: 'public',
                     table: 'goals',
+                    filter: `user_id=eq.${userId}` // Only listen to changes for this user
                 },
-                () => {
+                (payload) => {
+                    console.log('Real-time update received:', payload)
                     fetchGoals()
                 }
             )
-            .subscribe()
+            .subscribe((status) => {
+                console.log('Subscription status:', status)
+            })
 
         return () => {
+            console.log('Cleaning up subscription')
             supabase.removeChannel(channel)
         }
-    }, [])
+    }, [userId]) // Add userId as dependency
+
 
     return (
         <div className="w-full p-4">
@@ -132,8 +141,8 @@ export default function GoalsTable({ userId, userName }: { userId: string, userN
                 <button
                     onClick={() => setShowCompleted(false)}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${!showCompleted
-                            ? 'bg-white text-gray-900 shadow-sm'
-                            : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-500 hover:text-gray-700'
                         }`}
                 >
                     Pending ({goals.filter(g => g.status !== 'complete').length})
@@ -141,8 +150,8 @@ export default function GoalsTable({ userId, userName }: { userId: string, userN
                 <button
                     onClick={() => setShowCompleted(true)}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${showCompleted
-                            ? 'bg-white text-gray-900 shadow-sm'
-                            : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-500 hover:text-gray-700'
                         }`}
                 >
                     Completed ({goals.filter(g => g.status === 'complete').length})
