@@ -1,12 +1,13 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabaseClient'
+import type { User } from '@supabase/supabase-js'
 
 export default function Navbar() {
-    const [user, setUser] = useState<any>(null)
+    const [user, setUser] = useState<User | null>(null)
 
     useEffect(() => {
-        const session = supabase.auth.getSession().then(({ data }) => {
+        supabase.auth.getSession().then(({ data }) => {
             setUser(data?.session?.user ?? null)
         })
         const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
