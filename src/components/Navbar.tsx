@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import type { User } from '@supabase/supabase-js'
+import DarkModeSwitch from './DarkModeSwitch'
 
 export default function Navbar() {
     const [user, setUser] = useState<User | null>(null)
@@ -27,26 +28,29 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="w-full bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-lg">
-            <div className="text-xl font-bold text-gray-800">
-                Accountability App
+        <nav className="w-full bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 py-3 flex items-center justify-between shadow-lg dark:shadow-[0_4px_24px_0_rgba(0,0,0,0.5)]">
+            <div className="text-xl font-bold text-gray-800 dark:text-gray-100">
+            Accountability App
+            </div>
+            <div className="ml-4">
+            <DarkModeSwitch />
             </div>
             <div>
-                {!user ? (
-                    <button
-                        onClick={handleLogin}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                    >
-                        Login
-                    </button>
-                ) : (
-                    <button
-                        onClick={handleLogout}
-                        className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900 transition"
-                    >
-                        Logout
-                    </button>
-                )}
+            {!user ? (
+                <button
+                onClick={handleLogin}
+                className="px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-800 transition"
+                >
+                Login
+                </button>
+            ) : (
+                <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded hover:bg-gray-900 dark:hover:bg-gray-800 transition"
+                >
+                Logout
+                </button>
+            )}
             </div>
         </nav>
     )

@@ -58,58 +58,58 @@ export default function AddGoalForm() {
             {!showForm && (
                 <button
                     onClick={() => setShowForm(true)}
-                    className="bg-blue-600 text-white mx-4 px-6 py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition"
+                    className="bg-blue-600 text-white mx-4 px-6 py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition dark:bg-blue-500 dark:hover:bg-blue-600 dark:text-white"
                 >
                     Add New Goal
                 </button>
             )}
             {showForm && (
-                <div className="flex p-2">
+                <div className="flex p-4">
                     <form
                         onSubmit={handleSubmit}
-                        className="flex flex-col gap-4 w-full max-w-4xl bg-white shadow-lg rounded-xl p-6"
+                        className="flex flex-col gap-6 w-full max-w-6xl bg-white shadow-lg rounded-xl p-8 dark:bg-gray-900 dark:shadow-gray-800"
                     >
-                        <h2 className="text-xl font-semibold mb-1 text-gray-800">Add New Goal</h2>
-                        <div className="flex flex-col md:flex-row gap-3">
-                            <div className="flex flex-col gap-1 flex-1">
-                                <label className="text-sm font-medium text-gray-700">Goal Title</label>
+                        <h2 className="text-2xl font-semibold mb-2 text-gray-800 dark:text-gray-100">Add New Goal</h2>
+                        <div className="flex flex-col md:flex-row gap-4">
+                            <div className="flex flex-col gap-2 flex-1">
+                                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Goal Title</label>
                                 <input
                                     required
-                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                                    className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 dark:focus:ring-blue-400"
                                     placeholder="Enter your goal"
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                 />
                             </div>
-                            <div className="flex flex-col gap-1 flex-1">
-                                <label className="text-sm font-medium text-gray-700">Description</label>
+                            <div className="flex flex-col gap-2 flex-1">
+                                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
                                 <textarea
-                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                                    className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 dark:focus:ring-blue-400"
                                     placeholder="Describe your goal (optional)"
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
-                                    rows={2}
+                                    rows={3}
                                 />
                             </div>
-                            <div className="flex flex-col gap-1 flex-1">
-                                <label className="text-sm font-medium text-gray-700">Target Date</label>
+                            <div className="flex flex-col gap-2 flex-1">
+                                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Target Date</label>
                                 <input
                                     type="date"
-                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                                    className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 dark:focus:ring-blue-400"
                                     value={targetDate}
                                     onChange={(e) => setTargetDate(e.target.value)}
                                 />
                             </div>
                         </div>
-                        <div className="flex gap-3">
+                        <div className="flex gap-4">
                             <button
                                 type="submit"
-                                className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-2 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-blue-600 transition disabled:opacity-50"
+                                className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-3 rounded-lg font-semibold shadow hover:from-blue-700 hover:to-blue-600 transition disabled:opacity-50 dark:from-blue-500 dark:to-blue-400 dark:hover:from-blue-600 dark:hover:to-blue-500 dark:text-white"
                                 disabled={loading}
                             >
                                 {loading ? (
                                     <span className="flex items-center justify-center gap-2">
-                                        <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+                                        <svg className="animate-spin h-5 w-5 text-white dark:text-white" viewBox="0 0 24 24">
                                             <circle
                                                 className="opacity-25"
                                                 cx="12"
@@ -133,7 +133,7 @@ export default function AddGoalForm() {
                             </button>
                             <button
                                 type="button"
-                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold shadow hover:bg-gray-400 transition"
+                                className="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold shadow hover:bg-gray-400 transition dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
                                 onClick={() => setShowForm(false)}
                                 disabled={loading}
                             >

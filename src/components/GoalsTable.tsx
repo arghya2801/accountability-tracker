@@ -137,12 +137,12 @@ export default function GoalsTable({ userId }: { userId: string }) {
 
     return (
         <div className="w-full p-4">
-            <div className="flex mb-4 bg-gray-100 p-1 rounded-lg w-fit">
+            <div className="flex mb-4 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg w-fit">
                 <button
                     onClick={() => setShowCompleted(false)}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${!showCompleted
-                        ? 'bg-white text-gray-900 shadow-sm'
-                        : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm'
+                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                         }`}
                 >
                     Pending ({goals.filter(g => g.status !== 'complete').length})
@@ -150,59 +150,59 @@ export default function GoalsTable({ userId }: { userId: string }) {
                 <button
                     onClick={() => setShowCompleted(true)}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${showCompleted
-                        ? 'bg-white text-gray-900 shadow-sm'
-                        : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm'
+                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                         }`}
                 >
                     Completed ({goals.filter(g => g.status === 'complete').length})
                 </button>
             </div>
-            <div className="overflow-x-auto rounded-lg shadow-sm border border-gray-200">
-                <table className="w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+            <div className="overflow-x-auto rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                <table className="w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead className="bg-gray-50 dark:bg-gray-900">
                         <tr>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 Title
                             </th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 Description
                             </th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 Target Date
                             </th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 Status
                             </th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 Actions
                             </th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white dark:bg-gray-950 divide-y divide-gray-200 dark:divide-gray-700">
                         {filteredGoals.map((goal) => {
                             const isEditing = editingId === goal.id
                             return (
                                 <tr key={goal.id} className={isEditing ? '' : 'align-middle'}>
                                     {isEditing ? (
                                         <>
-                                            <td className="px-4 py-2 border-t border-gray-200 align-top">
+                                            <td className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 align-top">
                                                 <input
                                                     name="title"
                                                     value={editForm.title ?? ''}
                                                     onChange={handleEditChange}
-                                                    className="border rounded px-2 py-1 w-full"
+                                                    className="border rounded px-2 py-1 w-full bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
                                                 />
                                             </td>
-                                            <td className="px-4 py-2 border-t border-gray-200 align-top">
+                                            <td className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 align-top">
                                                 <textarea
                                                     name="description"
                                                     value={editForm.description ?? ''}
                                                     onChange={handleEditChange}
-                                                    className="border rounded px-2 py-1 w-full resize-none"
+                                                    className="border rounded px-2 py-1 w-full resize-none bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
                                                     rows={3}
                                                 />
                                             </td>
-                                            <td className="px-4 py-2 border-t border-gray-200 align-top">
+                                            <td className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 align-top">
                                                 <input
                                                     name="target_date"
                                                     type="date"
@@ -212,30 +212,30 @@ export default function GoalsTable({ userId }: { userId: string }) {
                                                             : ''
                                                     }
                                                     onChange={handleEditChange}
-                                                    className="border rounded px-2 py-1 w-full"
+                                                    className="border rounded px-2 py-1 w-full bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
                                                 />
                                             </td>
-                                            <td className="px-4 py-2 border-t border-gray-200 align-top">
+                                            <td className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 align-top">
                                                 <select
                                                     name="status"
                                                     value={editForm.status ?? 'pending'}
                                                     onChange={handleEditChange}
-                                                    className="border rounded px-2 py-1 w-full"
+                                                    className="border rounded px-2 py-1 w-full bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
                                                 >
                                                     <option value="pending">Pending</option>
                                                     <option value="complete">Complete</option>
                                                 </select>
                                             </td>
-                                            <td className="px-4 py-2 border-t border-gray-200 align-top">
+                                            <td className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 align-top">
                                                 <div className="flex gap-2">
                                                     <button
-                                                        className="px-2 py-1 bg-blue-500 text-white rounded"
+                                                        className="px-2 py-1 bg-blue-500 text-white rounded dark:bg-blue-600"
                                                         onClick={() => saveEdit(goal.id)}
                                                     >
                                                         Save
                                                     </button>
                                                     <button
-                                                        className="px-2 py-1 bg-gray-400 text-white rounded"
+                                                        className="px-2 py-1 bg-gray-400 text-white rounded dark:bg-gray-700"
                                                         onClick={cancelEdit}
                                                     >
                                                         Cancel
@@ -245,13 +245,13 @@ export default function GoalsTable({ userId }: { userId: string }) {
                                         </>
                                     ) : (
                                         <>
-                                            <td className="px-4 py-2 border-t border-gray-200 align-middle">{goal.title}</td>
-                                            <td className="px-4 py-2 border-t border-gray-200 align-middle truncate max-w-xs" title={goal.description || '-'}>
-                                                <span className="block whitespace-normal break-words">
+                                            <td className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 align-middle text-gray-900 dark:text-gray-100">{goal.title}</td>
+                                            <td className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 align-middle truncate max-w-xs" title={goal.description || '-'}>
+                                                <span className="block whitespace-normal break-words text-gray-900 dark:text-gray-100">
                                                     {goal.description || '-'}
                                                 </span>
                                             </td>
-                                            <td className="px-4 py-2 border-t border-gray-200 align-middle">
+                                            <td className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 align-middle text-gray-900 dark:text-gray-100">
                                                 {goal.target_date
                                                     ? (() => {
                                                         const date = new Date(goal.target_date)
@@ -270,22 +270,22 @@ export default function GoalsTable({ userId }: { userId: string }) {
                                                     })()
                                                     : '-'}
                                             </td>
-                                            <td className="px-4 py-2 border-t border-gray-200 align-middle">
+                                            <td className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 align-middle">
                                                 {goal.status === 'pending' ? (
                                                     <button
-                                                        className="px-2 py-1 bg-green-500 text-white rounded"
+                                                        className="px-2 py-1 bg-green-500 text-white rounded dark:bg-green-600"
                                                         onClick={() => updateGoalStatus(goal.id, 'complete')}
                                                     >
                                                         Mark Complete
                                                     </button>
                                                 ) : (
-                                                    <span className="text-green-700 font-semibold">Complete</span>
+                                                    <span className="text-green-700 dark:text-green-400 font-semibold">Complete</span>
                                                 )}
                                             </td>
-                                            <td className="px-4 py-2 border-t border-gray-200 align-middle">
+                                            <td className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 align-middle">
                                                 <div className="flex gap-2">
                                                     <button
-                                                        className="p-1 rounded hover:bg-blue-100 text-blue-600 transition"
+                                                        className="p-1 rounded hover:bg-blue-100 dark:hover:bg-blue-900 text-blue-600 dark:text-blue-400 transition"
                                                         title="Edit"
                                                         onClick={() => startEdit(goal)}
                                                     >
@@ -294,7 +294,7 @@ export default function GoalsTable({ userId }: { userId: string }) {
                                                         </svg>
                                                     </button>
                                                     <button
-                                                        className="p-1 rounded hover:bg-red-100 text-red-600 transition"
+                                                        className="p-1 rounded hover:bg-red-100 dark:hover:bg-red-900 text-red-600 dark:text-red-400 transition"
                                                         title="Delete"
                                                         onClick={() => deleteGoal(goal.id)}
                                                     >
