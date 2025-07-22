@@ -1,0 +1,52 @@
+'use client'
+import React, { useState, useEffect } from 'react'
+import { supabase } from '../lib/supabaseClient'
+
+export default function Navbar() {
+    const [user, setUser] = useState<any>(null)
+
+    useEffect(() => {
+        const session = supabase.auth.getSession().then(({ data }) => {
+            setUser(data?.session?.user ?? null)
+        })
+        const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null)
+        })
+        return () => {
+            listener?.subscription.unsubscribe()
+        }
+    }, [])
+
+    const handleLogin = () => {
+        window.location.href = '/login'
+    }
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut()
+    }
+
+    return (
+        <nav className="w-full bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-lg">
+            <div className="text-xl font-bold text-gray-800">
+                Accountability App
+            </div>
+            <div>
+                {!user ? (
+                    <button
+                        onClick={handleLogin}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                    >
+                        Login
+                    </button>
+                ) : (
+                    <button
+                        onClick={handleLogout}
+                        className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900 transition"
+                    >
+                        Logout
+                    </button>
+                )}
+            </div>
+        </nav>
+    )
+}
