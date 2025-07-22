@@ -32,10 +32,7 @@ export default function Navbar() {
             <div className="text-xl font-bold text-gray-800 dark:text-gray-100">
             Accountability App
             </div>
-            <div className="ml-4">
-            <DarkModeSwitch />
-            </div>
-            <div>
+            <div className="flex items-center gap-4">
             {!user ? (
                 <button
                 onClick={handleLogin}
@@ -51,6 +48,7 @@ export default function Navbar() {
                 Logout
                 </button>
             )}
+            <DarkModeSwitch />
             </div>
         </nav>
     )

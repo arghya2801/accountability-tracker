@@ -5,6 +5,11 @@
 :root {
   --background: #ffffff;
   --foreground: #101828;
+
+}
+:root.dark {
+  --background: #101828;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -16,10 +21,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #101828;
+    --background: #ffffff;
     --foreground: #ededed;
   }
 }
+
 
 body {
   background: var(--background);
