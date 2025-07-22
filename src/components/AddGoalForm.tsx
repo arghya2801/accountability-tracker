@@ -13,7 +13,21 @@ export default function AddGoalForm() {
         e.preventDefault()
         setLoading(true)
 
-        const user_id = 'a8f426c8-29e8-4855-9d9f-e9ef398fc26a' // Use supabase.auth.getUser() if using Auth
+        // const user_id = 'a8f426c8-29e8-4855-9d9f-e9ef398fc26a' // Use supabase.auth.getUser() if using Auth
+        // const user_id = supabase.auth.getUser()
+
+        const {
+            data: { user },
+            error: userError,
+        } = await supabase.auth.getUser()
+
+        if (userError || !user) {
+            alert('User not authenticated.')
+            setLoading(false)
+            return
+        }
+
+        const user_id = user.id
 
         const { error } = await supabase.from('goals').insert([
             {
